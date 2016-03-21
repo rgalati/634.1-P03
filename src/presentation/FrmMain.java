@@ -19,6 +19,10 @@ public class FrmMain extends java.awt.Frame {
   private static final String MSG_NON_VALIDEE = "Cette offre n'est pas validée";
   private static final String MSG_MAX_ATTEINT = "Le nombre maximal d'inscrits est atteint";
   private static final String TITRE_LSTCLIENTS = "Clients inscrits à l'offre";
+  private static final int NON_VALIDEE = -1;
+  private static final int VALIDEE = 0;
+  private static final int MAX_ATTEINT = 1;
+  
   
   private ListeClients listeClients;
   private ListeOffres listeOffres;
@@ -216,14 +220,12 @@ public class FrmMain extends java.awt.Frame {
     tfMinInscrits.setText(""+min);
     tfMaxInscrits.setText(""+max);
     int nbInscrits = listeClients.size();
-    
-    String message;
+
     switch(listeOffres.offreValide(nbInscrits)){
-      case -1: message = MSG_NON_VALIDEE; break;
-      case 0: message = MSG_VALIDEE; break;
-      default: message = MSG_MAX_ATTEINT; break;
+      case NON_VALIDEE: tfMessage.setText(MSG_NON_VALIDEE); break;
+      case VALIDEE: tfMessage.setText(MSG_VALIDEE); break;
+      default: tfMessage.setText(MSG_MAX_ATTEINT); break;
     }
-    tfMessage.setText(message);
   }
   
   private void displayClient(){
@@ -253,7 +255,18 @@ public class FrmMain extends java.awt.Frame {
   }
   
   private void enregistrementValide(){
-    
+      if (tfNom.getText() != "" || tfPrenom.getText() != "" || tfEMail.getText() != "" ) {
+          int nbInscrits = listeClients.size();
+          if (listeOffres.offreValide(nbInscrits) != MAX_ATTEINT) {
+              btnEnregistrer.setEnabled(true);
+          }
+          else{
+              btnEnregistrer.setEnabled(false);
+          }
+      }
+      else{
+          btnEnregistrer.setEnabled(false);
+      }
   }
 
   /** Fin de l'application */
@@ -264,6 +277,7 @@ public class FrmMain extends java.awt.Frame {
   private void lstOffresItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_lstOffresItemStateChanged
     initClient();
     displayOffre();
+    btnEnregistrer.setEnabled(false);
   }//GEN-LAST:event_lstOffresItemStateChanged
 
   private void lstClientsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_lstClientsItemStateChanged
