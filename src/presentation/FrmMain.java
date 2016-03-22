@@ -280,7 +280,8 @@ public class FrmMain extends java.awt.Frame {
 
   /** Fin de l'application */
   private void exitForm(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_exitForm
-    System.exit(0);
+      base.ConnexionBase.close();
+      System.exit(0);
   }//GEN-LAST:event_exitForm
 
   private void lstOffresItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_lstOffresItemStateChanged
