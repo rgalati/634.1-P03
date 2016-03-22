@@ -280,7 +280,7 @@ public class FrmMain extends java.awt.Frame {
 
   /** Fin de l'application */
   private void exitForm(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_exitForm
-      base.ConnexionBase.close();System.out.println("Tcho");
+      base.ConnexionBase.close();System.out.println("Tcho"); System.out.println("Tonio est un p**");
       System.exit(0);
   }//GEN-LAST:event_exitForm
 
