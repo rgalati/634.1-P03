@@ -105,9 +105,27 @@ public class FrmMain extends java.awt.Frame {
 
         label4.setText("Nom");
 
+        tfNom.addTextListener(new java.awt.event.TextListener() {
+            public void textValueChanged(java.awt.event.TextEvent evt) {
+                tfNomTextValueChanged(evt);
+            }
+        });
+
         label5.setText("Prénom");
 
+        tfPrenom.addTextListener(new java.awt.event.TextListener() {
+            public void textValueChanged(java.awt.event.TextEvent evt) {
+                tfPrenomTextValueChanged(evt);
+            }
+        });
+
         label6.setText("e-mail");
+
+        tfEMail.addTextListener(new java.awt.event.TextListener() {
+            public void textValueChanged(java.awt.event.TextEvent evt) {
+                tfEMailTextValueChanged(evt);
+            }
+        });
 
         btnEnregistrer.setEnabled(false);
         btnEnregistrer.setLabel("Enregistrer l'inscription");
@@ -233,35 +251,30 @@ public class FrmMain extends java.awt.Frame {
     }
   }
   
-  private void reinitClient(){
-    lstClients.removeAll();
-    tfNom.setText("");
-    tfPrenom.setText("");
-    tfEMail.setText("");
-  }
-  
   private void initClient(){
     int id = lstOffres.getSelectedIndex();
     listeOffres.setPos(id);
     listeClients = new ListeClients(listeOffres.getCourant());
-    reinitClient();
+    lstClients.removeAll();
     for (int i = 0; i < listeClients.size(); i++) {
       lstClients.add(listeClients.get(i).toString());
     }
   }
   
   private void enregistrementValide(){
-      if (tfNom.getText() != "" || tfPrenom.getText() != "" || tfEMail.getText() != "" ) {
-          int nbInscrits = listeClients.size();
-          if (listeOffres.offreValide(nbInscrits) != MAX_ATTEINT) {
-              btnEnregistrer.setEnabled(true);
-          }
-          else{
-              btnEnregistrer.setEnabled(false);
-          }
-      }
-      else{
-          btnEnregistrer.setEnabled(false);
+      if(listeOffres.getCourant() != null){
+        if (!tfNom.getText().isEmpty() && !tfPrenom.getText().isEmpty() && !tfEMail.getText().isEmpty() ) {
+            if (listeOffres.offreValide(listeClients.size()) != MAX_ATTEINT) {
+                System.out.println(listeOffres.offreValide(listeClients.size()));
+                btnEnregistrer.setEnabled(true);
+            }
+            else{
+                btnEnregistrer.setEnabled(false);
+            }
+        }
+        else{
+            btnEnregistrer.setEnabled(false);
+        }
       }
   }
 
@@ -273,8 +286,20 @@ public class FrmMain extends java.awt.Frame {
   private void lstOffresItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_lstOffresItemStateChanged
     initClient();
     displayOffre();
-    btnEnregistrer.setEnabled(false);
+    enregistrementValide();
   }//GEN-LAST:event_lstOffresItemStateChanged
+
+    private void tfNomTextValueChanged(java.awt.event.TextEvent evt) {//GEN-FIRST:event_tfNomTextValueChanged
+        enregistrementValide();
+    }//GEN-LAST:event_tfNomTextValueChanged
+
+    private void tfPrenomTextValueChanged(java.awt.event.TextEvent evt) {//GEN-FIRST:event_tfPrenomTextValueChanged
+        enregistrementValide();
+    }//GEN-LAST:event_tfPrenomTextValueChanged
+
+    private void tfEMailTextValueChanged(java.awt.event.TextEvent evt) {//GEN-FIRST:event_tfEMailTextValueChanged
+        enregistrementValide();
+    }//GEN-LAST:event_tfEMailTextValueChanged
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button btnEnregistrer;
